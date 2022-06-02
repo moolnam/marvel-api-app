@@ -11,27 +11,50 @@ import CryptoKit
 
 class CharacterManager: ObservableObject {
     
-    @Published var title: String = "-"
-    @Published var id: Int = 0
-    
     @Published var fecthCharaterData: [Character]? = nil
     @Published var searchQueary = ""
+    @Published var searchButton = ""
     
     var searchCancellable: AnyCancellable? = nil
     
-    init() {
-        searchCancellable = $searchQueary
-            .removeDuplicates()
-            .debounce(for: 0.6, scheduler: RunLoop.main)
-            .sink(receiveValue: { str in
-                if str == "" {
-                    
-                } else {
-                    self.fetchCharater()
-                    print(str)
+    func fetchButton(characterName: String) {
+        let publicKey = "443904aea2fa9b610e8600d614904bff"
+        let privateKey = "0dae0525214a76bbb8ce988812d330a26afadbec"
+        
+        let ts = String(Date().timeIntervalSince1970)
+        let hash = MD5(data: "\(ts)\(privateKey)\(publicKey)")
+//        let originalQueary =  searchQueary.replacingOccurrences(of: " ", with: "%20")
+        
+        let urlString = "https://gateway.marvel.com:443/v1/public/characters/\(characterName)&ts=\(ts)?apikey=\(publicKey)&hash=\(hash)"
+
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        print(urlString)
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let APIData = data else {
+                return
+            }
+            
+            do {
+                let characters = try JSONDecoder().decode(APIResult.self, from: APIData)
+                DispatchQueue.main.async {
+                    if self.fecthCharaterData == nil {
+                        self.fecthCharaterData = characters.data.results
+                    }
                 }
-            })
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
+        task.resume()
     }
+    
     
     func fetchCharater() {
         
@@ -40,20 +63,25 @@ class CharacterManager: ObservableObject {
         
         let ts = String(Date().timeIntervalSince1970)
         let hash = MD5(data: "\(ts)\(privateKey)\(publicKey)")
+        let originalQueary =  searchQueary.replacingOccurrences(of: " ", with: "%20")
+        
+        let urlString = "https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=\(originalQueary)&ts=\(ts)&apikey=\(publicKey)&hash=\(hash)"
         
         
-        let url = "http://gateway.marvel.com/v1/public/comics?ts=\(ts)&apikey=\(publicKey)&hash=\(hash)"
-        print(url)
+        guard let url = URL(string: urlString) else {
+            print("url error")
+            return
+        }
+        print(urlString)
         
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: URL(string: url)!) { data, response, error in
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 print(error.localizedDescription)
-                return
             }
             guard let APIData = data else {
                 return
             }
+            
             do {
                 let characters = try JSONDecoder().decode(APIResult.self, from: APIData)
                 DispatchQueue.main.async {
@@ -62,9 +90,10 @@ class CharacterManager: ObservableObject {
                     }
                 }
             } catch {
-                print(error.localizedDescription)
+                print("catch error : \(error.localizedDescription)")
             }
         }
+        task.resume()
         
     }
     
@@ -77,7 +106,22 @@ class CharacterManager: ObservableObject {
         .joined()
     }
     
-
+    init() {
+        searchCancellable = $searchQueary
+            .removeDuplicates()
+            .debounce(for: 0.6, scheduler: RunLoop.main)
+            .sink(receiveValue: { str in
+                if str == "" {
+                    self.fecthCharaterData = nil
+                }
+                else {
+                    self.fetchCharater()
+                    print(str)
+                }
+            })
+    }
+    
+    
     
     
 }
