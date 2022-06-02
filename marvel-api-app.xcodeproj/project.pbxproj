@@ -12,7 +12,8 @@
 		7872CD1F284602F900030F76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7872CD1E284602F900030F76 /* Assets.xcassets */; };
 		7872CD22284602F900030F76 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7872CD21284602F900030F76 /* Preview Assets.xcassets */; };
 		7872CD292846040200030F76 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7872CD282846040200030F76 /* Credentials.swift */; };
-		7872CD302846059E00030F76 /* ChManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7872CD2F2846059E00030F76 /* ChManager.swift */; };
+		7872CD302846059E00030F76 /* CharacterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7872CD2F2846059E00030F76 /* CharacterManager.swift */; };
+		7886E3D028488E68001AFF8B /* CharaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7886E3CF28488E68001AFF8B /* CharaterView.swift */; };
 		78B4C67128460D2900022262 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B4C67028460D2900022262 /* Character.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,7 +24,8 @@
 		7872CD1E284602F900030F76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7872CD21284602F900030F76 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7872CD282846040200030F76 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
-		7872CD2F2846059E00030F76 /* ChManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChManager.swift; sourceTree = "<group>"; };
+		7872CD2F2846059E00030F76 /* CharacterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterManager.swift; sourceTree = "<group>"; };
+		7886E3CF28488E68001AFF8B /* CharaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharaterView.swift; sourceTree = "<group>"; };
 		78B4C67028460D2900022262 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				7872CD1C284602F800030F76 /* ContentView.swift */,
+				7886E3CF28488E68001AFF8B /* CharaterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -95,7 +98,7 @@
 		7872CD2C2846047400030F76 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				7872CD2F2846059E00030F76 /* ChManager.swift */,
+				7872CD2F2846059E00030F76 /* CharacterManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -172,7 +175,8 @@
 			files = (
 				7872CD1D284602F800030F76 /* ContentView.swift in Sources */,
 				7872CD292846040200030F76 /* Credentials.swift in Sources */,
-				7872CD302846059E00030F76 /* ChManager.swift in Sources */,
+				7886E3D028488E68001AFF8B /* CharaterView.swift in Sources */,
+				7872CD302846059E00030F76 /* CharacterManager.swift in Sources */,
 				7872CD1B284602F800030F76 /* marvel_api_appApp.swift in Sources */,
 				78B4C67128460D2900022262 /* Character.swift in Sources */,
 			);

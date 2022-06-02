@@ -9,24 +9,34 @@ import Foundation
 import Combine
 import CryptoKit
 
-class ChManager: ObservableObject {
+class CharacterManager: ObservableObject {
     
     @Published var title: String = "-"
     @Published var id: Int = 0
     
-    @Published var charaterData = [Character]()
+    @Published var fecthCharaterData: [Character]? = nil
+    @Published var searchQueary = ""
     
+    var searchCancellable: AnyCancellable? = nil
     
-    // https://gateway.marvel.com:443/v1/public/characters?apikey=443904aea2fa9b610e8600d614904bff&hash=ffd275c5130566a2916217b101f26150
-    // http://gateway.marvel.com/v1/public/comics?ts=1&apikey=443904aea2fa9b610e8600d614904bff&hash=0dae0525214a76bbb8ce988812d330a26afadbec
-    
+    init() {
+        searchCancellable = $searchQueary
+            .removeDuplicates()
+            .debounce(for: 0.6, scheduler: RunLoop.main)
+            .sink(receiveValue: { str in
+                if str == "" {
+                    
+                } else {
+                    self.fetchCharater()
+                    print(str)
+                }
+            })
+    }
     
     func fetchCharater() {
         
         let publicKey = "443904aea2fa9b610e8600d614904bff"
         let privateKey = "0dae0525214a76bbb8ce988812d330a26afadbec"
-        // ts=1654083745.121179&
-// http://gateway.marvel.com/v1/public/comics?ts=1&apikey=1234&hash=ffd275c5130566a2916217b101f26150
         
         let ts = String(Date().timeIntervalSince1970)
         let hash = MD5(data: "\(ts)\(privateKey)\(publicKey)")
@@ -45,10 +55,11 @@ class ChManager: ObservableObject {
                 return
             }
             do {
-                let result = try JSONDecoder().decode(Character.self, from: APIData)
+                let characters = try JSONDecoder().decode(APIResult.self, from: APIData)
                 DispatchQueue.main.async {
-                    self.id = result.id
-                    self.title = result.name
+                    if self.fecthCharaterData == nil {
+                        self.fecthCharaterData = characters.data.results
+                    }
                 }
             } catch {
                 print(error.localizedDescription)
@@ -65,6 +76,7 @@ class ChManager: ObservableObject {
         }
         .joined()
     }
+    
 
     
     

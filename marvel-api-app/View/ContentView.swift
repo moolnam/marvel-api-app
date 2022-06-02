@@ -9,25 +9,23 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var chData = ChManager()
-    @State var char: String = ""
+    @StateObject var characterData = CharacterManager()
+    
     
     
     var body: some View {
-        VStack {
-            Text("\(chData.title)")
-            Text("\(chData.id)")
+        
+        TabView {
+            CharaterView()
+                .tabItem {
+                    Text("Character")
+                }
+                .environmentObject(characterData)
             
-            TextField("캐릭터 입력", text: $char)
-            Button(action: {
-                chData.fetchCharater()
-            }, label: {
-                Text("Button")
-            })
+                .tabItem {
+                    Text("My Character")
+                }
         }
-        
-        
-        
     }
 }
 
