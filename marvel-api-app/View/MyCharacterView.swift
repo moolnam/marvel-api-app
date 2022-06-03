@@ -17,10 +17,11 @@ struct MyCharacterView: View {
     var body: some View {
         
         NavigationView {
-            VStack {
-                Text("Cards")
+            ScrollView {
+                VStack {
+                    
+                }
             }
-            .navigationTitle("My Cards")
         }
     }
     
