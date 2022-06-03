@@ -6,11 +6,25 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct MyCharacterView: View {
+    
+    @EnvironmentObject var characterCardData: CharacterManager
+    
+    
+    
     var body: some View {
-        Text("Hello, World!")
+        
+        NavigationView {
+            VStack {
+                Text("Cards")
+            }
+            .navigationTitle("My Cards")
+        }
     }
+    
+    
 }
 
 struct MyCharacterView_Previews: PreviewProvider {

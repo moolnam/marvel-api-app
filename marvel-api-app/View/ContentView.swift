@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ContentView: View {
     
@@ -21,7 +22,7 @@ struct ContentView: View {
                     Text("Character")
                 }
                 .environmentObject(characterData)
-            
+            MyCharacterView()
                 .tabItem {
                     Text("My Character")
                 }
