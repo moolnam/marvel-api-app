@@ -85,13 +85,15 @@ struct CharacterRowView: View {
                     .font(.system(size: 30))
                 Text(characters.description)
                     .font(.caption)
-                ForEach(characters.urls, id: \.self) { data in
-                    NavigationLink(destination: {
-                        WebView(url: extractURL(data: data))
-                            .navigationTitle(extractURLType(data: data))
-                    }, label: {
-                        Text(extractURLType(data: datat))
-                    })
+                HStack {
+                    ForEach(characters.urls, id: \.self) { data in
+                        NavigationLink(destination: {
+                            WebView(url: extractURL(data: data))
+                                .navigationTitle(extractURLType(data: data))
+                        }, label: {
+                            Text(extractURLType(data: data))
+                        })
+                    }
                 }
             }
         }
