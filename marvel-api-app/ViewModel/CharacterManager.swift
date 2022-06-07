@@ -12,6 +12,7 @@ import CryptoKit
 class CharacterManager: ObservableObject {
     
     @Published var fecthCharaterData: [Character]? = nil
+    @Published var fecthComicData: [Comic]? = nil
     @Published var searchQueary = ""
     @Published var searchButton = ""
     

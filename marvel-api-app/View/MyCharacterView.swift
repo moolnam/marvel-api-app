@@ -19,7 +19,7 @@ struct MyCharacterView: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    
+                    Text("asd")
                 }
             }
         }
