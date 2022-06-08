@@ -84,6 +84,31 @@ class CharacterManager: ObservableObject {
             })
     }
     
+    @Published var limitCount = 50
+    
+    
+    func fetchComic() {
+        let publicKey = "443904aea2fa9b610e8600d614904bff"
+        let privateKey = "0dae0525214a76bbb8ce988812d330a26afadbec"
+        
+        
+        var urlString = "https://gateway.marvel.com:443/v1/public/comics?limit=\(limitCount)&apikey=\(publicKey)"
+        
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        print(url)
+        
+        let task = URLSession.shared.dataTask(with: url) { data, respinse, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            
+        }
+        task.resume()
+        
+    }
     
     
     

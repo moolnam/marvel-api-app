@@ -20,7 +20,7 @@ struct APIComicData: Codable {
 struct Comic: Identifiable, Codable {
     
     var id: Int
-    var name: String
+    var title: String
     var description: String
     var thumbnail: [String : String]
     var urls: [[String : String]]
