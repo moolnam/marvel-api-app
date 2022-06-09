@@ -74,7 +74,6 @@ struct CharacterRowView: View {
     
     var body: some View {
         HStack() {
-            
             WebImage(url: extractImage(data: characters.thumbnail))
                 .resizable()
                 .aspectRatio(contentMode: .fill)
