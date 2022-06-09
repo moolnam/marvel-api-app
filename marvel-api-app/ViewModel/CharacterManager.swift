@@ -46,7 +46,7 @@ class CharacterManager: ObservableObject {
             }
             
             do {
-                let characters = try JSONDecoder().decode(APIResult.self, from: APIData)
+                let characters = try JSONDecoder().decode(APICharacterResult.self, from: APIData)
                 DispatchQueue.main.async {
                     if self.fecthCharaterData == nil {
                         self.fecthCharaterData = characters.data.results
@@ -101,9 +101,21 @@ class CharacterManager: ObservableObject {
         
         let task = URLSession.shared.dataTask(with: url) { data, respinse, error in
             if let error = error {
+                print("error 발생")
                 print(error.localizedDescription)
             }
             
+            guard let safeData = data else {
+                print("sfaData 저장 안됨")
+                return
+            }
+            
+            do {
+                let comic =  try JSONDecoder().decode(APIComicResult.self, from: safeData)
+                
+            } catch {
+                print(error.localizedDescription)
+            }
             
         }
         task.resume()

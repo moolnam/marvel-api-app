@@ -20,6 +20,7 @@ struct ContentView: View {
         TabView {
             CharaterView()
                 .tabItem {
+                    Image(systemName: "")
                     Text("Character")
                 }
                 .environmentObject(homeData)

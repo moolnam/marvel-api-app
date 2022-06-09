@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct APIResult: Codable {
+struct APICharacterResult: Codable {
     var data: APICharacterData
 }
 
