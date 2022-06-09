@@ -12,12 +12,56 @@ import CryptoKit
 class CharacterManager: ObservableObject {
     
     @Published var fecthCharaterData: [Character]? = nil
-    @Published var fecthComicData: [Comic]? = nil
+    @Published var fecthComicData: [Comic] = []
     @Published var searchQueary = ""
     @Published var searchButton = ""
     
     var searchCancellable: AnyCancellable? = nil
     
+    //MARK: - fetchComic
+    
+    @Published var limitCount = 30
+    @Published var offset = 0
+    
+    func fetchComic() {
+        let publicKey = "443904aea2fa9b610e8600d614904bff"
+        let privateKey = "0dae0525214a76bbb8ce988812d330a26afadbec"
+        
+        let ts = String(Date().timeIntervalSince1970)
+        let hash = MD5(data: "\(ts)\(privateKey)\(publicKey)")
+        
+        let urlString = "https://gateway.marvel.com:443/v1/public/comics?limit=20&offset=\(offset)&ts=\(ts)&apikey=\(publicKey)&hash=\(hash)"
+        print(urlString)
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        print(url)
+        
+        let task = URLSession.shared.dataTask(with: url) { data, respinse, error in
+            if let error = error {
+                print("error 발생")
+                print(error.localizedDescription)
+            }
+            
+            guard let safeData = data else {
+                print("sfaData 저장 안됨")
+                return
+            }
+            
+            do {
+                let comic =  try JSONDecoder().decode(APIComicResult.self, from: safeData)
+                DispatchQueue.main.async {
+                    self.fecthComicData = comic.data.results
+                }
+            } catch {
+                print("catch error : \(error.localizedDescription)")
+
+            }
+            
+        }
+        task.resume()
+        
+    }
     
     func fetchCharater() {
         
@@ -84,43 +128,7 @@ class CharacterManager: ObservableObject {
             })
     }
     
-    @Published var limitCount = 50
     
-    
-    func fetchComic() {
-        let publicKey = "443904aea2fa9b610e8600d614904bff"
-        let privateKey = "0dae0525214a76bbb8ce988812d330a26afadbec"
-        
-        
-        var urlString = "https://gateway.marvel.com:443/v1/public/comics?limit=\(limitCount)&apikey=\(publicKey)"
-        
-        guard let url = URL(string: urlString) else {
-            return
-        }
-        print(url)
-        
-        let task = URLSession.shared.dataTask(with: url) { data, respinse, error in
-            if let error = error {
-                print("error 발생")
-                print(error.localizedDescription)
-            }
-            
-            guard let safeData = data else {
-                print("sfaData 저장 안됨")
-                return
-            }
-            
-            do {
-                let comic =  try JSONDecoder().decode(APIComicResult.self, from: safeData)
-                
-            } catch {
-                print(error.localizedDescription)
-            }
-            
-        }
-        task.resume()
-        
-    }
     
     
     
