@@ -8,7 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct MyCharacterView: View {
+struct ComicView: View {
     
     @EnvironmentObject var homeData: CharacterManager
     
@@ -18,11 +18,37 @@ struct MyCharacterView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 if homeData.fecthComicData.isEmpty {
                     ProgressView()
+                        .padding()
                 }
                 else {
                     VStack {
                         ForEach(homeData.fecthComicData) { comic in
                             ComicRowView(characters: comic)
+                        }
+                        
+                        if homeData.offset == homeData.fecthComicData.count {
+                            ProgressView()
+                                .padding(.vertical)
+                                .onAppear() {
+                                    print("new data fetching...")
+                                }
+                        }
+                        else {
+                            GeometryReader { reader -> Color in
+                                
+                                let minY = reader.frame(in: .global).minY
+                                
+                                let height = UIScreen.main.bounds.height / 1.5
+                                
+                                if !homeData.fecthComicData.isEmpty && minY < height {
+                                    print("last")
+                                    DispatchQueue.main.async {
+                                        homeData.offset = homeData.fecthComicData.count
+                                    }
+                                }
+                                
+                                return Color.clear
+                            }
                         }
                     }
                 }
@@ -40,9 +66,9 @@ struct MyCharacterView: View {
     
 }
 
-struct MyCharacterView_Previews: PreviewProvider {
+struct ComicView_Previews: PreviewProvider {
     static var previews: some View {
-        MyCharacterView()
+        ComicView()
     }
 }
 
@@ -61,7 +87,7 @@ struct ComicRowView: View {
                 Text(characters.title)
                     .font(.system(size: 30))
                 if let description = characters.description {
-                    Text(characters.description)
+                    Text(description)
                 }
                 HStack {
                     ForEach(characters.urls, id: \.self) { data in

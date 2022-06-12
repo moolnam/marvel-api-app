@@ -24,12 +24,17 @@ struct ContentView: View {
                     Text("Character")
                 }
                 .environmentObject(homeData)
-            MyCharacterView()
+            ComicView()
                 .tabItem {
                     Image(systemName: "books.vertical")
                     Text("My Character")
                 }
                 .environmentObject(homeData)
+            CharacterCard()
+                .tabItem() {
+                    Image(systemName: "creditcard")
+                    Text("My Cards")
+                }
         }
     }
 }
