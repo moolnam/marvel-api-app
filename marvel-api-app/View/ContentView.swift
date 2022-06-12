@@ -13,8 +13,6 @@ struct ContentView: View {
     
     @StateObject var homeData = CharacterManager()
     
-    
-    
     var body: some View {
         
         TabView {
@@ -30,11 +28,12 @@ struct ContentView: View {
                     Text("My Character")
                 }
                 .environmentObject(homeData)
-            CharacterCard()
+            CardView()
                 .tabItem() {
                     Image(systemName: "creditcard")
                     Text("My Cards")
                 }
+                .environmentObject(homeData)
         }
     }
 }

@@ -51,7 +51,7 @@ class CharacterManager: ObservableObject {
             do {
                 let comic =  try JSONDecoder().decode(APIComicResult.self, from: safeData)
                 DispatchQueue.main.async {
-                    self.fecthComicData = comic.data.results
+                    self.fecthComicData.append(contentsOf: comic.data.results)
                 }
             } catch {
                 print("catch error : \(error.localizedDescription)")
@@ -62,6 +62,8 @@ class CharacterManager: ObservableObject {
         task.resume()
         
     }
+    
+    //MARK: - fetchCharacter
     
     func fetchCharater() {
         

@@ -30,7 +30,8 @@ struct ComicView: View {
                             ProgressView()
                                 .padding(.vertical)
                                 .onAppear() {
-                                    print("new data fetching...")
+                                    print("new data fetching... fecthComicDataCount: \(homeData.fecthComicData.count), offset: \(homeData.offset)")
+                                    homeData.fetchComic()
                                 }
                         }
                         else {
@@ -38,7 +39,7 @@ struct ComicView: View {
                                 
                                 let minY = reader.frame(in: .global).minY
                                 
-                                let height = UIScreen.main.bounds.height / 1.5
+                                let height = UIScreen.main.bounds.height / 1.3
                                 
                                 if !homeData.fecthComicData.isEmpty && minY < height {
                                     print("last")
